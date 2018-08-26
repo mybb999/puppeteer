@@ -29,3 +29,4 @@ const puppeteer = require('puppeteer');//引入库类
 
 page.evaluate()方法还有另一种代替
 
+2.iframe获取方式
