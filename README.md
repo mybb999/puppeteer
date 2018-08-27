@@ -15,10 +15,9 @@ const puppeteer = require('puppeteer');//引入库类
   await page.type('#kw', '人形自走炮', {delay: 100});//page.type('目标','输入文字',输入间隔时间)
   page.click('#su')//不用说了
   await page.waitFor(1000);//等待页面执行时间
-  const targetLink = await page.evaluate(() => {//经常用到的一步，写你所需要执行逻辑的方法，有点类似vue里面的method一样，
-  并且一定要return返回结果
+  const targetLink = await page.evaluate(() => {//经常用到一步，写你所需要执行逻辑的方法，有点类似vue里面的method一样，并且一定要return返回结果
     return [...document.querySelectorAll('.result a')].filter(item => {//将a标签过滤传到过滤方法中
-      return item.innerText && item.innerText.indexOf('"人形自走炮"是什么意思?_百度知道')!==0   //判断自走炮地址的条件
+      return item.innerText && item.innerText.indexOf('"人形自走炮"是什么意思?_百度知道')!=-1   //判断自走炮地址的条件
     }).toString()
   });
   await page.goto(targetLink);
@@ -37,5 +36,17 @@ document.querySelectorAll返回的是一个NodeList特殊列表，所以用ES6�
 
 
 2.iframe获取方式
+
+一种获取页面内容方式：
+const frame = await page.mainFrame()//返回页面的主frame
+const bodyHandle = await page.$('body');//选择页面body
+const html = await page.evaluate(body => body.innerHTML, bodyHandle);，输出body
+await bodyHandle.dispose();//销毁句柄
+console.log(html)
+
+还有一种获取iframe对象：
+
+
+
 
 
