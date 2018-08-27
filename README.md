@@ -45,8 +45,57 @@ await bodyHandle.dispose();//销毁句柄
 console.log(html)
 
 还有一种获取iframe对象：
+let iframe = await page.frames().find(f => f.name() === 'login_frame');
+这个满大街都是，找到一个iframe的name的名字是叫"login_frame"的
 
 
 
+另外要注意iframe有多个id和name相同，有点类似反爬虫的机制在里面，贴上我爬久游敢达的官网代码，本来打算自动登录中队页面，后来发现有验证码并且iframe元素选择不了，例如page.type()无法选取焦点，最后通过某个大神告诉我选择一个输入框里的另一个标签元素才成功输入。
+
+<pre>
+
+const puppeteer = require('puppeteer');
+
+(async () => {
+  const browser = await puppeteer.launch({headless: false});
+  const page = await browser.newPage();
+  page.setViewport({width:1920,height:1080});
+  // page.on('console', msg => console.log('PAGE LOG:', msg.text()));
+  await page.goto('http://ms.9you.com/web_v3/index.html');
+  page.click('.fixMenu03 a');
+  await page.waitFor(4000);
+  // const frame2 = await page.mainFrame()
+  // console.log(frame2)
+  // const bodyHandle = await frame2.$('html');    
+  // const html = await frame2.evaluate(body => body.innerHTML, bodyHandle);
+  // await bodyHandle.dispose();  
 
 
+
+  let iframe = await page.frames().find(f => f.name() === 'login_frame');  
+  
+
+  await iframe.waitFor(2000);
+  await iframe.click('#uin_tips');  
+  await iframe.type('#uin_tips','684654234542273');
+  // iframe.click('#password');
+  // iframe.type('#password','123456');
+  // await page.waitFor(1000);  
+  // await iframe.click('#password');  
+  // await page.waitFor(1000); 
+  // await iframe.type('#password','54686787',{delay:100});
+  
+  
+  await page.waitFor(1000);  
+  // browser.close();
+})()
+
+</pre>
+
+<图片>
+
+里面有多个相同iframe的id和name，毕竟是第一次接触有点懵逼
+
+<图片>
+
+反正蛋是碎了，总的来说如果不太深入只是想做普通简单的点击工具还是可以的，例如自己做的页面进行测试点击之类还是挺有帮助的。
