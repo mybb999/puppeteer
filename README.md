@@ -16,8 +16,8 @@ const puppeteer = require('puppeteer');//引入库类
   page.click('#su')//不用说了
   await page.waitFor(1000);//等待页面执行时间
   const targetLink = await page.evaluate(() => {//经常用到的一步，写你所需要执行逻辑的方法，有点类似vue里面的method一样，并且一定要return返回结果
-    return [...document.querySelectorAll('.result a')].filter(item => {
-      return item.innerText && item.innerText.indexOf('"人形自走炮"是什么意思?_百度知道')!==0
+    return [...document.querySelectorAll('.result a')].filter(item => {//将a标签过滤传到过滤方法中
+      return item.innerText && item.innerText.indexOf('"人形自走炮"是什么意思?_百度知道')!==0   //判断自走炮地址的条件
     }).toString()
   });
   await page.goto(targetLink);
@@ -27,6 +27,13 @@ const puppeteer = require('puppeteer');//引入库类
 
 </pre>
 
-page.evaluate()方法还有另一种代替
+
+page.evaluate(方法，传入方法的参数)方法实际就是写你的逻辑方法地方，还有另一种page.$eval('选择目标',方法,传入方法的参数)代替，实际上是多了个选择器,如果不选择元素的话用evaluate即可，据情况使用吧。
+
+document.querySelectorAll返回的是一个NodeList特殊列表，所以用ES6扩展运算符的...把NodeList列表分割数列，再用[]把它们转换为数组。
+...和[]经常用来代替ES5的function.apply(方法，[参数])和function.call(方法,参数A,参数B,参数一堆...........)，具体百度。
+
 
 2.iframe获取方式
+
+
