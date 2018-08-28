@@ -41,11 +41,13 @@ document.querySelectorAll返回的是一个NodeList特殊列表，所以用ES6�
 2.iframe获取方式
 
 一种获取页面内容方式：
+<pre>
 const frame = await page.mainFrame()//返回页面的主frame
 const bodyHandle = await page.$('body');//选择页面body
 const html = await page.evaluate(body => body.innerHTML, bodyHandle);，输出body
 await bodyHandle.dispose();//销毁句柄
 console.log(html)
+</pre>
 
 还有一种获取iframe对象：
 let iframe = await page.frames().find(f => f.name() === 'login_frame');
