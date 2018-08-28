@@ -34,6 +34,8 @@ page.evaluate(方法，传入方法的参数)方法实际就是写你的逻辑�
 document.querySelectorAll返回的是一个NodeList特殊列表，所以用ES6扩展运算符的...把NodeList列表分割数列，再用[]把它们转换为数组。
 ...和[]经常用来代替ES5的function.apply(方法，[参数])和function.call(方法,参数A,参数B,参数一堆...........)，具体百度。
 
+![image](images/puppeteer1.png)
+
 
 2.iframe获取方式
 
@@ -92,10 +94,10 @@ const puppeteer = require('puppeteer');
 
 </pre>
 
-<图片>
+
 
 里面有多个相同iframe的id和name，毕竟是第一次接触有点懵逼
 
-<图片>
+
 
 反正蛋是碎了，总的来说如果不太深入只是想做普通简单的点击工具还是可以的，例如自己做的页面进行测试点击之类还是挺有帮助的。
